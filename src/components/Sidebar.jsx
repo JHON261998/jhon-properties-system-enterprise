@@ -1,3 +1,6 @@
+import { NavLink } from "react-router-dom";
+import navigation from "../data/navigation";
+
 function Sidebar() {
   return (
     <aside className="sidebar">
@@ -5,18 +8,22 @@ function Sidebar() {
 
       <nav>
         <ul>
-          <li>Dashboard</li>
-          <li>Landlords</li>
-          <li>Agencies</li>
-          <li>Properties</li>
-          <li>Tenants</li>
-          <li>Payments</li>
-          <li>Reports</li>
-          <li>Settings</li>
+          {navigation.map((item) => (
+            <li key={item.id}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                {item.name}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;
