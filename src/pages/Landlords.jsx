@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react";
+
 import LandlordModal from "../components/LandlordModal";
 import LandlordTable from "../components/LandlordTable";
+
+import {
+  loadLandlords,
+  saveLandlords,
+  createLandlord,
+} from "../features/landlords/landlordStore";
 
 function Landlords() {
   const [open, setOpen] = useState(false);
 
-  const [landlords, setLandlords] = useState(() => {
-    const saved = localStorage.getItem("landlords");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [landlords, setLandlords] = useState(loadLandlords);
 
   useEffect(() => {
-    localStorage.setItem("landlords", JSON.stringify(landlords));
+    saveLandlords(landlords);
   }, [landlords]);
 
-  function addLandlord(landlord) {
-    const newLandlord = {
-      id: `L-${Date.now()}`,
-      ...landlord,
-    };
+  function addLandlord(data) {
+    const landlord = createLandlord(data);
 
-    setLandlords([...landlords, newLandlord]);
+    setLandlords([...landlords, landlord]);
+
     setOpen(false);
   }
 
