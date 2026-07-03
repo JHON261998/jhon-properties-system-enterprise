@@ -1,29 +1,32 @@
 import { useState } from "react";
 
 function LandlordModal({ open, onClose, onSave }) {
-
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [nationalId, setNationalId] = useState("");
 
   if (!open) return null;
 
-  const handleSave = () => {
+  function handleSave() {
+    if (!name.trim()) return;
 
     onSave({
       name,
       phone,
-      email
+      email,
+      nationalId,
+      status: "Active",
     });
 
     setName("");
     setPhone("");
     setEmail("");
-  };
+    setNationalId("");
+  }
 
   return (
     <div className="modal-overlay">
-
       <div className="modal">
 
         <h2>Add Landlord</h2>
@@ -33,6 +36,13 @@ function LandlordModal({ open, onClose, onSave }) {
           placeholder="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="National ID"
+          value={nationalId}
+          onChange={(e) => setNationalId(e.target.value)}
         />
 
         <input
@@ -50,7 +60,6 @@ function LandlordModal({ open, onClose, onSave }) {
         />
 
         <div className="modal-buttons">
-
           <button
             className="primary-btn"
             onClick={handleSave}
@@ -61,11 +70,9 @@ function LandlordModal({ open, onClose, onSave }) {
           <button onClick={onClose}>
             Cancel
           </button>
-
         </div>
 
       </div>
-
     </div>
   );
 }

@@ -8,9 +8,9 @@ function LandlordTable({ landlords, onDelete }) {
           <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>National ID</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Properties</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>

@@ -3,10 +3,10 @@ function LandlordRow({ landlord, onDelete }) {
     <tr>
       <td>{landlord.id}</td>
       <td>{landlord.name}</td>
+      <td>{landlord.nationalId}</td>
       <td>{landlord.phone}</td>
       <td>{landlord.email}</td>
-      <td>0</td>
-      <td>Active</td>
+      <td>{landlord.status}</td>
 
       <td>
         <button
