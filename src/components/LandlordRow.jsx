@@ -1,6 +1,7 @@
-function LandlordRow({ landlord, index, onDelete }) {
+function LandlordRow({ landlord, onDelete }) {
   return (
     <tr>
+      <td>{landlord.id}</td>
       <td>{landlord.name}</td>
       <td>{landlord.phone}</td>
       <td>{landlord.email}</td>
@@ -10,7 +11,7 @@ function LandlordRow({ landlord, index, onDelete }) {
       <td>
         <button
           className="danger-btn"
-          onClick={() => onDelete(index)}
+          onClick={() => onDelete(landlord.id)}
         >
           Delete
         </button>

@@ -7,25 +7,26 @@ function Landlords() {
 
   const [landlords, setLandlords] = useState(() => {
     const saved = localStorage.getItem("landlords");
-
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem(
-      "landlords",
-      JSON.stringify(landlords)
-    );
+    localStorage.setItem("landlords", JSON.stringify(landlords));
   }, [landlords]);
 
   function addLandlord(landlord) {
-    setLandlords([...landlords, landlord]);
+    const newLandlord = {
+      id: `L-${Date.now()}`,
+      ...landlord,
+    };
+
+    setLandlords([...landlords, newLandlord]);
     setOpen(false);
   }
 
-  function deleteLandlord(index) {
+  function deleteLandlord(id) {
     setLandlords(
-      landlords.filter((_, i) => i !== index)
+      landlords.filter((landlord) => landlord.id !== id)
     );
   }
 

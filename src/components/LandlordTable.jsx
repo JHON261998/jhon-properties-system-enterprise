@@ -4,9 +4,9 @@ function LandlordTable({ landlords, onDelete }) {
   return (
     <div className="table-container">
       <table className="jps-table">
-
         <thead>
           <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
             <th>Email</th>
@@ -17,26 +17,22 @@ function LandlordTable({ landlords, onDelete }) {
         </thead>
 
         <tbody>
-
           {landlords.length === 0 ? (
             <tr>
-              <td colSpan={6} className="empty-state">
+              <td colSpan={7} className="empty-state">
                 No landlords registered.
               </td>
             </tr>
           ) : (
-            landlords.map((landlord, index) => (
+            landlords.map((landlord) => (
               <LandlordRow
-                key={index}
+                key={landlord.id}
                 landlord={landlord}
-                index={index}
                 onDelete={onDelete}
               />
             ))
           )}
-
         </tbody>
-
       </table>
     </div>
   );
