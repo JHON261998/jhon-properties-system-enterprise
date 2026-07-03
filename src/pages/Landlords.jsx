@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LandlordModal from "../components/LandlordModal";
 import LandlordTable from "../components/LandlordTable";
 
 function Landlords() {
   const [open, setOpen] = useState(false);
-  const [landlords, setLandlords] = useState([]);
+
+  const [landlords, setLandlords] = useState(() => {
+    const saved = localStorage.getItem("landlords");
+
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "landlords",
+      JSON.stringify(landlords)
+    );
+  }, [landlords]);
 
   function addLandlord(landlord) {
     setLandlords([...landlords, landlord]);
@@ -20,7 +32,6 @@ function Landlords() {
   return (
     <>
       <div className="page-header">
-
         <div>
           <h1>Landlords</h1>
           <p>Manage all property owners.</p>
@@ -32,7 +43,6 @@ function Landlords() {
         >
           + Add Landlord
         </button>
-
       </div>
 
       <LandlordTable
@@ -45,7 +55,6 @@ function Landlords() {
         onClose={() => setOpen(false)}
         onSave={addLandlord}
       />
-
     </>
   );
 }
