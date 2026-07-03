@@ -1,10 +1,11 @@
 import { useState } from "react";
+import TextInput from "./TextInput";
 
 function LandlordModal({ open, onClose, onSave }) {
   const [name, setName] = useState("");
+  const [nationalId, setNationalId] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [nationalId, setNationalId] = useState("");
 
   if (!open) return null;
 
@@ -13,57 +14,54 @@ function LandlordModal({ open, onClose, onSave }) {
 
     onSave({
       name,
+      nationalId,
       phone,
       email,
-      nationalId,
       status: "Active",
     });
 
     setName("");
+    setNationalId("");
     setPhone("");
     setEmail("");
-    setNationalId("");
   }
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-
         <h2>Add Landlord</h2>
 
-        <input
-          type="text"
-          placeholder="Full Name"
+        <TextInput
+          label="Full Name"
+          placeholder="Enter full name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
 
-        <input
-          type="text"
-          placeholder="National ID"
+        <TextInput
+          label="National ID"
+          placeholder="Enter National ID"
           value={nationalId}
           onChange={(e) => setNationalId(e.target.value)}
         />
 
-        <input
-          type="text"
-          placeholder="Phone Number"
+        <TextInput
+          label="Phone Number"
+          placeholder="Enter phone number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
 
-        <input
+        <TextInput
+          label="Email Address"
           type="email"
-          placeholder="Email Address"
+          placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <div className="modal-buttons">
-          <button
-            className="primary-btn"
-            onClick={handleSave}
-          >
+          <button className="primary-btn" onClick={handleSave}>
             Save
           </button>
 
@@ -71,7 +69,6 @@ function LandlordModal({ open, onClose, onSave }) {
             Cancel
           </button>
         </div>
-
       </div>
     </div>
   );
