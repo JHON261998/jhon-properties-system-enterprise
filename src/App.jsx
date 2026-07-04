@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
@@ -13,6 +12,7 @@ import Units from "./pages/Units";
 import Tenants from "./pages/Tenants";
 import Leases from "./pages/Leases";
 import BusinessPeriods from "./pages/BusinessPeriods";
+import RentCharges from "./pages/RentCharges";
 import Payments from "./pages/Payments";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
@@ -32,6 +32,10 @@ function App() {
         <Route
           path="/business-periods"
           element={<BusinessPeriods />}
+        />
+        <Route
+          path="/rent-charges"
+          element={<RentCharges />}
         />
         <Route path="/payments" element={<Payments />} />
         <Route path="/reports" element={<Reports />} />

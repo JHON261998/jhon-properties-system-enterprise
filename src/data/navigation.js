@@ -46,16 +46,21 @@ const navigation = [
   },
   {
     id: 10,
+    name: "Rent Charges",
+    path: "/rent-charges",
+  },
+  {
+    id: 11,
     name: "Payments",
     path: "/payments",
   },
   {
-    id: 11,
+    id: 12,
     name: "Reports",
     path: "/reports",
   },
   {
-    id: 12,
+    id: 13,
     name: "Settings",
     path: "/settings",
   },
