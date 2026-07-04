@@ -40,3 +40,20 @@ export function openPeriod(id) {
 
   savePeriods(updated);
 }
+
+export function setCurrentPeriod(id) {
+  const periods = loadPeriods();
+
+  const updated = periods.map(period => ({
+    ...period,
+    current: period.id === id,
+  }));
+
+  savePeriods(updated);
+}
+
+export function getCurrentPeriod() {
+  const periods = loadPeriods();
+
+  return periods.find(period => period.current);
+}

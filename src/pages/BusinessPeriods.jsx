@@ -9,6 +9,7 @@ import {
   createPeriod,
   closePeriod,
   openPeriod,
+  setCurrentPeriod,
 } from "../features/businessPeriods/periodStore";
 
 function BusinessPeriods() {
@@ -37,6 +38,11 @@ function BusinessPeriods() {
     setPeriods(loadPeriods());
   }
 
+  function handleSetCurrent(id) {
+    setCurrentPeriod(id);
+    setPeriods(loadPeriods());
+  }
+
   return (
     <>
       <div className="page-header">
@@ -57,6 +63,7 @@ function BusinessPeriods() {
         periods={periods}
         onOpen={handleOpen}
         onClose={handleClose}
+        onSetCurrent={handleSetCurrent}
       />
 
       <BusinessPeriodModal
