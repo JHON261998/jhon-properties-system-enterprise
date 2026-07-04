@@ -41,16 +41,21 @@ const navigation = [
   },
   {
     id: 9,
+    name: "Business Periods",
+    path: "/business-periods",
+  },
+  {
+    id: 10,
     name: "Payments",
     path: "/payments",
   },
   {
-    id: 10,
+    id: 11,
     name: "Reports",
     path: "/reports",
   },
   {
-    id: 11,
+    id: 12,
     name: "Settings",
     path: "/settings",
   },
