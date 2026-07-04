@@ -1,26 +1,34 @@
 import { useState } from "react";
 import TextInput from "./TextInput";
+import { loadBuildings } from "../features/buildings/buildingStore";
 
 function UnitModal({ open, onClose, onSave }) {
+  const buildings = loadBuildings();
+
   const [unitNumber, setUnitNumber] = useState("");
-  const [building, setBuilding] = useState("");
+  const [buildingId, setBuildingId] = useState("");
   const [type, setType] = useState("");
   const [rent, setRent] = useState("");
 
   if (!open) return null;
 
   function handleSave() {
-    if (!unitNumber.trim()) return;
+    if (!unitNumber.trim() || !buildingId) return;
+
+    const building = buildings.find(
+      (b) => String(b.id) === buildingId
+    );
 
     onSave({
       unitNumber,
-      building,
+      buildingId,
+      building: building?.name || "",
       type,
       rent,
     });
 
     setUnitNumber("");
-    setBuilding("");
+    setBuildingId("");
     setType("");
     setRent("");
   }
@@ -37,12 +45,23 @@ function UnitModal({ open, onClose, onSave }) {
           onChange={(e) => setUnitNumber(e.target.value)}
         />
 
-        <TextInput
-          label="Building"
-          placeholder="Block A"
-          value={building}
-          onChange={(e) => setBuilding(e.target.value)}
-        />
+        <label>Building</label>
+
+        <select
+          value={buildingId}
+          onChange={(e) => setBuildingId(e.target.value)}
+        >
+          <option value="">Select Building</option>
+
+          {buildings.map((building) => (
+            <option
+              key={building.id}
+              value={building.id}
+            >
+              {building.name}
+            </option>
+          ))}
+        </select>
 
         <TextInput
           label="Unit Type"

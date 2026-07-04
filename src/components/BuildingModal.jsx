@@ -1,22 +1,29 @@
 import { useState } from "react";
-import TextInput from "./TextInput";
+import { loadProperties } from "../features/properties/propertyStore";
 
 function BuildingModal({ open, onClose, onSave }) {
+  const properties = loadProperties();
+
   const [name, setName] = useState("");
-  const [property, setProperty] = useState("");
+  const [propertyId, setPropertyId] = useState("");
 
   if (!open) return null;
 
   function handleSave() {
-    if (!name.trim()) return;
+    if (!name.trim() || !propertyId) return;
+
+    const property = properties.find(
+      (p) => String(p.id) === propertyId
+    );
 
     onSave({
       name,
-      property,
+      propertyId,
+      property: property?.name || "",
     });
 
     setName("");
-    setProperty("");
+    setPropertyId("");
   }
 
   return (
@@ -24,18 +31,31 @@ function BuildingModal({ open, onClose, onSave }) {
       <div className="modal">
         <h2>Add Building</h2>
 
-        <TextInput
-          label="Building Name"
+        <label>Property</label>
+
+        <select
+          value={propertyId}
+          onChange={(e) => setPropertyId(e.target.value)}
+        >
+          <option value="">Select Property</option>
+
+          {properties.map((property) => (
+            <option
+              key={property.id}
+              value={property.id}
+            >
+              {property.name}
+            </option>
+          ))}
+        </select>
+
+        <label>Building Name</label>
+
+        <input
+          type="text"
           placeholder="Block A"
           value={name}
           onChange={(e) => setName(e.target.value)}
-        />
-
-        <TextInput
-          label="Property"
-          placeholder="Sunset Apartments"
-          value={property}
-          onChange={(e) => setProperty(e.target.value)}
         />
 
         <div className="modal-buttons">

@@ -1,24 +1,32 @@
 import { useState } from "react";
 import TextInput from "./TextInput";
+import { loadLandlords } from "../features/landlords/landlordStore";
 
 function PropertyModal({ open, onClose, onSave }) {
+  const landlords = loadLandlords();
+
   const [name, setName] = useState("");
-  const [landlord, setLandlord] = useState("");
+  const [landlordId, setLandlordId] = useState("");
   const [manager, setManager] = useState("");
 
   if (!open) return null;
 
   function handleSave() {
-    if (!name.trim()) return;
+    if (!name.trim() || !landlordId) return;
+
+    const landlord = landlords.find(
+      (l) => String(l.id) === landlordId
+    );
 
     onSave({
       name,
-      landlord,
+      landlordId,
+      landlord: landlord?.name || "",
       manager,
     });
 
     setName("");
-    setLandlord("");
+    setLandlordId("");
     setManager("");
   }
 
@@ -34,12 +42,23 @@ function PropertyModal({ open, onClose, onSave }) {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <TextInput
-          label="Landlord"
-          placeholder="Mr. Kamau"
-          value={landlord}
-          onChange={(e) => setLandlord(e.target.value)}
-        />
+        <label>Landlord</label>
+
+        <select
+          value={landlordId}
+          onChange={(e) => setLandlordId(e.target.value)}
+        >
+          <option value="">Select Landlord</option>
+
+          {landlords.map((landlord) => (
+            <option
+              key={landlord.id}
+              value={landlord.id}
+            >
+              {landlord.name}
+            </option>
+          ))}
+        </select>
 
         <TextInput
           label="Property Manager"
