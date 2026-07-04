@@ -65,3 +65,29 @@ export function getOccupiedUnits() {
     (unit) => unit.status === "Occupied"
   );
 }
+
+export function getUnitStatistics() {
+  const units = loadUnits();
+
+  const total = units.length;
+
+  const occupied = units.filter(
+    unit => unit.status === "Occupied"
+  ).length;
+
+  const vacant = units.filter(
+    unit => unit.status === "Vacant"
+  ).length;
+
+  const occupancy =
+    total === 0
+      ? 0
+      : Number(((occupied / total) * 100).toFixed(1));
+
+  return {
+    total,
+    occupied,
+    vacant,
+    occupancy,
+  };
+}

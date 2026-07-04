@@ -1,4 +1,8 @@
+import { getUnitStatistics } from "../features/units/unitStore";
+
 function Dashboard() {
+  const stats = getUnitStatistics();
+
   return (
     <>
       <div className="page-header">
@@ -14,23 +18,23 @@ function Dashboard() {
 
       <div className="dashboard-grid">
         <div className="dashboard-card">
-          <h3>Landlords</h3>
-          <p>0 Registered</p>
+          <h3>Total Units</h3>
+          <p>{stats.total}</p>
         </div>
 
         <div className="dashboard-card">
-          <h3>Properties</h3>
-          <p>0 Registered</p>
+          <h3>Occupied Units</h3>
+          <p>{stats.occupied}</p>
         </div>
 
         <div className="dashboard-card">
-          <h3>Tenants</h3>
-          <p>0 Active</p>
+          <h3>Vacant Units</h3>
+          <p>{stats.vacant}</p>
         </div>
 
         <div className="dashboard-card">
-          <h3>Monthly Rent</h3>
-          <p>KES 0</p>
+          <h3>Occupancy Rate</h3>
+          <p>{stats.occupancy}%</p>
         </div>
       </div>
     </>
