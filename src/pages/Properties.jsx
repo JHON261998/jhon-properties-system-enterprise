@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import PropertyModal from "../components/PropertyModal";
+import PropertyTable from "../components/PropertyTable";
+
 import {
   loadProperties,
   saveProperties,
@@ -7,75 +10,44 @@ import {
 } from "../features/properties/propertyStore";
 
 function Properties() {
-  const [name, setName] = useState("");
   const [properties, setProperties] = useState(loadProperties);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     saveProperties(properties);
   }, [properties]);
 
-  function addProperty() {
-    if (!name.trim()) return;
-
-    const property = createProperty({
-      name,
-    });
+  function addProperty(data) {
+    const property = createProperty(data, properties.length);
 
     setProperties([...properties, property]);
 
-    setName("");
+    setOpen(false);
   }
 
   return (
     <>
-      <h1>Properties</h1>
-
-      <p>Register and manage properties.</p>
-
-      <div style={{ marginTop: "20px" }}>
-        <input
-          type="text"
-          placeholder="Property Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+      <div className="page-header">
+        <div>
+          <h1>Properties</h1>
+          <p>Manage all properties.</p>
+        </div>
 
         <button
           className="primary-btn"
-          onClick={addProperty}
-          style={{ marginLeft: "10px" }}
+          onClick={() => setOpen(true)}
         >
-          Add Property
+          + Add Property
         </button>
       </div>
 
-      <table className="jps-table" style={{ marginTop: "30px" }}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Property Name</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+      <PropertyTable properties={properties} />
 
-        <tbody>
-          {properties.length === 0 ? (
-            <tr>
-              <td colSpan={3} className="empty-state">
-                No properties registered.
-              </td>
-            </tr>
-          ) : (
-            properties.map((property) => (
-              <tr key={property.id}>
-                <td>{property.id}</td>
-                <td>{property.name}</td>
-                <td>{property.status}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+      <PropertyModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onSave={addProperty}
+      />
     </>
   );
 }

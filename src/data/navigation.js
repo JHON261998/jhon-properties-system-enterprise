@@ -21,21 +21,26 @@ const navigation = [
   },
   {
     id: 5,
+    name: "Buildings",
+    path: "/buildings",
+  },
+  {
+    id: 6,
     name: "Tenants",
     path: "/tenants",
   },
   {
-    id: 6,
+    id: 7,
     name: "Payments",
     path: "/payments",
   },
   {
-    id: 7,
+    id: 8,
     name: "Reports",
     path: "/reports",
   },
   {
-    id: 8,
+    id: 9,
     name: "Settings",
     path: "/settings",
   },

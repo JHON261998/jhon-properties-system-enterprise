@@ -10,10 +10,12 @@ export function saveProperties(properties) {
   );
 }
 
-export function createProperty(data) {
+export function createProperty(data, count) {
   return {
     id: `P-${Date.now()}`,
+    code: `P-${String(count + 1).padStart(3, "0")}`,
     status: "Active",
+    createdAt: new Date().toLocaleDateString(),
     ...data,
   };
 }
