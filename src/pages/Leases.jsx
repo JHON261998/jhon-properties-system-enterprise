@@ -9,6 +9,8 @@ import {
   createLease,
 } from "../features/leases/leaseStore";
 
+import { markUnitOccupied } from "../features/units/unitStore";
+
 function Leases() {
   const [leases, setLeases] = useState(loadLeases);
   const [open, setOpen] = useState(false);
@@ -19,7 +21,12 @@ function Leases() {
 
   function addLease(data) {
     const lease = createLease(data, leases.length);
+
+    // Automatically mark the selected unit as occupied
+    markUnitOccupied(data.unitId);
+
     setLeases([...leases, lease]);
+
     setOpen(false);
   }
 

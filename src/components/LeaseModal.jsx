@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { loadTenants } from "../features/tenants/tenantStore";
-import { loadUnits } from "../features/units/unitStore";
+import { getVacantUnits } from "../features/units/unitStore";
 
 function LeaseModal({ open, onClose, onSave }) {
   const tenants = loadTenants();
-  const units = loadUnits();
+  const units = getVacantUnits();
 
   const [tenantId, setTenantId] = useState("");
   const [unitId, setUnitId] = useState("");
@@ -18,8 +18,8 @@ function LeaseModal({ open, onClose, onSave }) {
   function handleSave() {
     if (!tenantId || !unitId) return;
 
-    const tenant = tenants.find(t => String(t.id) === tenantId);
-    const unit = units.find(u => String(u.id) === unitId);
+    const tenant = tenants.find((t) => String(t.id) === tenantId);
+    const unit = units.find((u) => String(u.id) === unitId);
 
     onSave({
       tenantId,
@@ -100,9 +100,7 @@ function LeaseModal({ open, onClose, onSave }) {
             Save
           </button>
 
-          <button onClick={onClose}>
-            Cancel
-          </button>
+          <button onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
