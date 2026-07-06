@@ -56,11 +56,16 @@ const navigation = [
   },
   {
     id: 12,
+    name: "Arrears",
+    path: "/arrears",
+  },
+  {
+    id: 13,
     name: "Reports",
     path: "/reports",
   },
   {
-    id: 13,
+    id: 14,
     name: "Settings",
     path: "/settings",
   },

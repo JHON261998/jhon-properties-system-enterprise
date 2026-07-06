@@ -14,6 +14,7 @@ import Leases from "./pages/Leases";
 import BusinessPeriods from "./pages/BusinessPeriods";
 import RentCharges from "./pages/RentCharges";
 import Payments from "./pages/Payments";
+import Arrears from "./pages/Arrears";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
@@ -22,24 +23,46 @@ function App() {
     <AppLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+
         <Route path="/agencies" element={<Agencies />} />
         <Route path="/landlords" element={<Landlords />} />
+
         <Route path="/properties" element={<Properties />} />
         <Route path="/buildings" element={<Buildings />} />
         <Route path="/units" element={<Units />} />
+
         <Route path="/tenants" element={<Tenants />} />
         <Route path="/leases" element={<Leases />} />
+
         <Route
           path="/business-periods"
           element={<BusinessPeriods />}
         />
+
         <Route
           path="/rent-charges"
           element={<RentCharges />}
         />
-        <Route path="/payments" element={<Payments />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/settings" element={<Settings />} />
+
+        <Route
+          path="/payments"
+          element={<Payments />}
+        />
+
+        <Route
+          path="/arrears"
+          element={<Arrears />}
+        />
+
+        <Route
+          path="/reports"
+          element={<Reports />}
+        />
+
+        <Route
+          path="/settings"
+          element={<Settings />}
+        />
       </Routes>
     </AppLayout>
   );
