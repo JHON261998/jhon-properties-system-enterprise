@@ -1,7 +1,7 @@
-import { getUnitStatistics } from "../features/units/unitStore";
+import { getDashboardStats } from "../services/dashboardService";
 
 function Dashboard() {
-  const stats = getUnitStatistics();
+  const stats = getDashboardStats();
 
   return (
     <>
@@ -17,25 +17,67 @@ function Dashboard() {
       </div>
 
       <div className="dashboard-grid">
+
+        <div className="dashboard-card">
+          <h3>Properties</h3>
+          <p>{stats.properties}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Buildings</h3>
+          <p>{stats.buildings}</p>
+        </div>
+
         <div className="dashboard-card">
           <h3>Total Units</h3>
-          <p>{stats.total}</p>
+          <p>{stats.units}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Occupied Units</h3>
-          <p>{stats.occupied}</p>
+          <p>{stats.occupiedUnits}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Vacant Units</h3>
-          <p>{stats.vacant}</p>
+          <p>{stats.vacantUnits}</p>
         </div>
 
         <div className="dashboard-card">
-          <h3>Occupancy Rate</h3>
-          <p>{stats.occupancy}%</p>
+          <h3>Tenants</h3>
+          <p>{stats.tenants}</p>
         </div>
+
+        <div className="dashboard-card">
+          <h3>Leases</h3>
+          <p>{stats.leases}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Rent Charges</h3>
+          <p>{stats.rentCharges}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Payments</h3>
+          <p>{stats.payments}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Total Rent Charged</h3>
+          <p>KES {stats.totalRentCharged.toLocaleString()}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Total Collected</h3>
+          <p>KES {stats.totalCollected.toLocaleString()}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Outstanding Balance</h3>
+          <p>KES {stats.outstandingBalance.toLocaleString()}</p>
+        </div>
+
       </div>
     </>
   );
