@@ -7,12 +7,9 @@ import ReceiptModal from "../components/ReceiptModal";
 import {
   loadPayments,
   savePayments,
-  createPayment,
 } from "../features/payments/paymentStore";
 
-import {
-  updateChargePayment,
-} from "../features/rentCharges/chargeStore";
+import { receivePayment } from "../services/paymentService";
 
 function Payments() {
   const [payments, setPayments] = useState(loadPayments);
@@ -24,12 +21,10 @@ function Payments() {
     savePayments(payments);
   }, [payments]);
 
-  function receivePayment(data) {
-    const payment = createPayment(data, payments.length);
-
-    updateChargePayment(
-      data.chargeId,
-      Number(data.amount)
+  function handleReceivePayment(data) {
+    const payment = receivePayment(
+      data,
+      payments
     );
 
     const updated = [...payments, payment];
@@ -39,6 +34,8 @@ function Payments() {
     setSelectedPayment(payment);
 
     setReceiptModal(true);
+
+    setPaymentModal(false);
   }
 
   return (
@@ -62,7 +59,7 @@ function Payments() {
       <PaymentModal
         open={paymentModal}
         onClose={() => setPaymentModal(false)}
-        onSave={receivePayment}
+        onSave={handleReceivePayment}
       />
 
       <ReceiptModal

@@ -6,11 +6,9 @@ import RentChargeGenerator from "../components/RentChargeGenerator";
 import {
   loadCharges,
   saveCharges,
-  createCharge,
 } from "../features/rentCharges/chargeStore";
 
-import { loadLeases } from "../features/leases/leaseStore";
-import { getCurrentPeriod } from "../features/businessPeriods/periodStore";
+import { generateMonthlyCharges } from "../services/rentService";
 
 function RentCharges() {
   const [charges, setCharges] = useState(loadCharges);
@@ -19,41 +17,13 @@ function RentCharges() {
     saveCharges(charges);
   }, [charges]);
 
-  function generateCharges() {
-    const leases = loadLeases();
-    const period = getCurrentPeriod();
-
-    if (!period) {
-      alert("Please select a Current Business Period.");
-      return;
+  function handleGenerateCharges() {
+    try {
+      const updatedCharges = generateMonthlyCharges();
+      setCharges(updatedCharges);
+    } catch (error) {
+      alert(error.message);
     }
-
-    const existing = [...charges];
-
-    leases.forEach((lease) => {
-      const alreadyExists = existing.find(
-        (charge) =>
-          charge.leaseId === lease.id &&
-          charge.period === `${period.month} ${period.year}`
-      );
-
-      if (alreadyExists) return;
-
-      existing.push(
-        createCharge(
-          {
-            leaseId: lease.id,
-            period: `${period.month} ${period.year}`,
-            tenant: lease.tenant,
-            unit: lease.unit,
-            amount: lease.rent,
-          },
-          existing.length
-        )
-      );
-    });
-
-    setCharges(existing);
   }
 
   return (
@@ -65,7 +35,7 @@ function RentCharges() {
         </div>
 
         <RentChargeGenerator
-          onGenerate={generateCharges}
+          onGenerate={handleGenerateCharges}
         />
       </div>
 
