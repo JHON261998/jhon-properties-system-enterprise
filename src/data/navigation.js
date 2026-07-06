@@ -61,11 +61,16 @@ const navigation = [
   },
   {
     id: 13,
+    name: "Landlord Statements",
+    path: "/landlord-statements",
+  },
+  {
+    id: 14,
     name: "Reports",
     path: "/reports",
   },
   {
-    id: 14,
+    id: 15,
     name: "Settings",
     path: "/settings",
   },

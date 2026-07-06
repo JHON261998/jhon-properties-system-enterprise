@@ -15,6 +15,7 @@ import BusinessPeriods from "./pages/BusinessPeriods";
 import RentCharges from "./pages/RentCharges";
 import Payments from "./pages/Payments";
 import Arrears from "./pages/Arrears";
+import LandlordStatements from "./pages/LandlordStatements";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
@@ -52,6 +53,11 @@ function App() {
         <Route
           path="/arrears"
           element={<Arrears />}
+        />
+
+        <Route
+          path="/landlord-statements"
+          element={<LandlordStatements />}
         />
 
         <Route
