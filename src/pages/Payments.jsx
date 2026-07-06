@@ -10,6 +10,10 @@ import {
   createPayment,
 } from "../features/payments/paymentStore";
 
+import {
+  updateChargePayment,
+} from "../features/rentCharges/chargeStore";
+
 function Payments() {
   const [payments, setPayments] = useState(loadPayments);
   const [paymentModal, setPaymentModal] = useState(false);
@@ -23,6 +27,11 @@ function Payments() {
   function receivePayment(data) {
     const payment = createPayment(data, payments.length);
 
+    updateChargePayment(
+      data.chargeId,
+      Number(data.amount)
+    );
+
     const updated = [...payments, payment];
 
     setPayments(updated);
@@ -35,7 +44,6 @@ function Payments() {
   return (
     <>
       <div className="page-header">
-
         <div>
           <h1>Payments</h1>
           <p>Receive tenant payments.</p>
@@ -47,7 +55,6 @@ function Payments() {
         >
           + Receive Payment
         </button>
-
       </div>
 
       <PaymentTable payments={payments} />

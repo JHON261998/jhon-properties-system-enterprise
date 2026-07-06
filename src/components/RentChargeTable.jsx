@@ -10,7 +10,9 @@ function RentChargeTable({ charges }) {
             <th>Period</th>
             <th>Tenant</th>
             <th>Unit</th>
-            <th>Amount</th>
+            <th>Rent</th>
+            <th>Paid</th>
+            <th>Balance</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -18,7 +20,7 @@ function RentChargeTable({ charges }) {
         <tbody>
           {charges.length === 0 ? (
             <tr>
-              <td colSpan={6} className="empty-state">
+              <td colSpan={8} className="empty-state">
                 No Rent Charges Generated
               </td>
             </tr>

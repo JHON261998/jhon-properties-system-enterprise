@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { loadCharges } from "../features/rentCharges/chargeStore";
+import { getOutstandingCharges } from "../features/rentCharges/chargeStore";
 
 function PaymentModal({ open, onClose, onSave }) {
-  const charges = loadCharges().filter(
-    (charge) => charge.status !== "Paid"
-  );
+  const charges = getOutstandingCharges();
 
   const [chargeId, setChargeId] = useState("");
   const [amount, setAmount] = useState("");
@@ -38,25 +36,24 @@ function PaymentModal({ open, onClose, onSave }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-
         <h2>Receive Payment</h2>
 
         <label>Rent Charge</label>
 
         <select
           value={chargeId}
-          onChange={(e)=>setChargeId(e.target.value)}
+          onChange={(e) => setChargeId(e.target.value)}
         >
           <option value="">
             Select Rent Charge
           </option>
 
-          {charges.map((charge)=>(
+          {charges.map((charge) => (
             <option
               key={charge.id}
               value={charge.id}
             >
-              {charge.tenant} - {charge.period}
+              {charge.tenant} - {charge.period} (KES {charge.balance})
             </option>
           ))}
         </select>
@@ -66,14 +63,14 @@ function PaymentModal({ open, onClose, onSave }) {
         <input
           type="number"
           value={amount}
-          onChange={(e)=>setAmount(e.target.value)}
+          onChange={(e) => setAmount(e.target.value)}
         />
 
         <label>Payment Method</label>
 
         <select
           value={method}
-          onChange={(e)=>setMethod(e.target.value)}
+          onChange={(e) => setMethod(e.target.value)}
         >
           <option>Cash</option>
           <option>M-Pesa</option>
@@ -82,7 +79,6 @@ function PaymentModal({ open, onClose, onSave }) {
         </select>
 
         <div className="modal-buttons">
-
           <button
             className="primary-btn"
             onClick={handleSave}
@@ -93,9 +89,7 @@ function PaymentModal({ open, onClose, onSave }) {
           <button onClick={onClose}>
             Cancel
           </button>
-
         </div>
-
       </div>
     </div>
   );
