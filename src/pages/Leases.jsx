@@ -6,10 +6,9 @@ import LeaseTable from "../components/LeaseTable";
 import {
   loadLeases,
   saveLeases,
-  createLease,
 } from "../features/leases/leaseStore";
 
-import { markUnitOccupied } from "../features/units/unitStore";
+import { createNewLease } from "../services/leaseService";
 
 function Leases() {
   const [leases, setLeases] = useState(loadLeases);
@@ -19,13 +18,16 @@ function Leases() {
     saveLeases(leases);
   }, [leases]);
 
-  function addLease(data) {
-    const lease = createLease(data, leases.length);
+  function handleCreateLease(data) {
+    const lease = createNewLease(
+      data,
+      leases
+    );
 
-    // Automatically mark the selected unit as occupied
-    markUnitOccupied(data.unitId);
-
-    setLeases([...leases, lease]);
+    setLeases([
+      ...leases,
+      lease,
+    ]);
 
     setOpen(false);
   }
@@ -38,7 +40,10 @@ function Leases() {
           <p>Manage active leases.</p>
         </div>
 
-        <button className="primary-btn" onClick={() => setOpen(true)}>
+        <button
+          className="primary-btn"
+          onClick={() => setOpen(true)}
+        >
           + Create Lease
         </button>
       </div>
@@ -48,7 +53,7 @@ function Leases() {
       <LeaseModal
         open={open}
         onClose={() => setOpen(false)}
-        onSave={addLease}
+        onSave={handleCreateLease}
       />
     </>
   );
