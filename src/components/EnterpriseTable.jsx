@@ -7,6 +7,7 @@ function EnterpriseTable({
 
   const [sortKey, setSortKey] = useState(null);
   const [ascending, setAscending] = useState(true);
+  const [search, setSearch] = useState("");
 
   function handleSort(columnKey) {
 
@@ -19,102 +20,161 @@ function EnterpriseTable({
 
   }
 
+  const filteredData = useMemo(() => {
+
+    if (!search.trim()) return data;
+
+    return data.filter((row) =>
+
+      columns.some((column) => {
+
+        const value = row[column.key];
+
+        if (value === null || value === undefined) {
+          return false;
+        }
+
+        return String(value)
+          .toLowerCase()
+          .includes(search.toLowerCase());
+
+      })
+
+    );
+
+  }, [data, search, columns]);
+
   const sortedData = useMemo(() => {
 
-    if (!sortKey) return data;
+    if (!sortKey) return filteredData;
 
-    return [...data].sort((a, b) => {
+    return [...filteredData].sort((a, b) => {
 
       const valueA = a[sortKey];
       const valueB = b[sortKey];
 
       if (typeof valueA === "number") {
+
         return ascending
           ? valueA - valueB
           : valueB - valueA;
+
       }
 
       return ascending
+
         ? String(valueA).localeCompare(String(valueB))
+
         : String(valueB).localeCompare(String(valueA));
 
     });
 
-  }, [data, sortKey, ascending]);
+  }, [filteredData, sortKey, ascending]);
 
   return (
 
-    <div className="enterprise-table-wrapper">
+    <>
 
-      <table className="enterprise-table">
+      <div className="enterprise-toolbar">
 
-        <thead>
+        <input
 
-          <tr>
+          className="enterprise-search"
 
-            {columns.map((column) => (
+          placeholder="Search..."
 
-              <th
-                key={column.key}
-                onClick={() => handleSort(column.key)}
-                style={{ cursor: "pointer" }}
-              >
+          value={search}
 
-                {column.label}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
 
-                {sortKey === column.key &&
-                  (ascending ? " ▲" : " ▼")}
+        />
 
-              </th>
+      </div>
 
-            ))}
+      <div className="enterprise-table-wrapper">
 
-          </tr>
+        <table className="enterprise-table">
 
-        </thead>
-
-        <tbody>
-
-          {sortedData.length === 0 ? (
+          <thead>
 
             <tr>
 
-              <td
-                colSpan={columns.length}
-                className="empty-table"
-              >
-                No records found.
-              </td>
+              {columns.map((column) => (
+
+                <th
+
+                  key={column.key}
+
+                  onClick={() =>
+                    handleSort(column.key)
+                  }
+
+                >
+
+                  {column.label}
+
+                  {sortKey === column.key &&
+                    (ascending ? " ▲" : " ▼")}
+
+                </th>
+
+              ))}
 
             </tr>
 
-          ) : (
+          </thead>
 
-            sortedData.map((row, index) => (
+          <tbody>
 
-              <tr key={row.id || index}>
+            {sortedData.length === 0 ? (
 
-                {columns.map((column) => (
+              <tr>
 
-                  <td key={column.key}>
+                <td
 
-                    {row[column.key]}
+                  colSpan={columns.length}
 
-                  </td>
+                  className="empty-table"
 
-                ))}
+                >
+
+                  No matching records.
+
+                </td>
 
               </tr>
 
-            ))
+            ) : (
 
-          )}
+              sortedData.map((row, index) => (
 
-        </tbody>
+                <tr key={row.id || index}>
 
-      </table>
+                  {columns.map((column) => (
 
-    </div>
+                    <td key={column.key}>
+
+                      {row[column.key]}
+
+                    </td>
+
+                  ))}
+
+                </tr>
+
+              ))
+
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </>
 
   );
 
