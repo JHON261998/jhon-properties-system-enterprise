@@ -4,71 +4,56 @@ function EnterpriseTable({
   columns = [],
   data = [],
 }) {
-
   const [sortKey, setSortKey] = useState(null);
   const [ascending, setAscending] = useState(true);
   const [search, setSearch] = useState("");
-
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   function handleSort(columnKey) {
-
     if (sortKey === columnKey) {
       setAscending(!ascending);
     } else {
       setSortKey(columnKey);
       setAscending(true);
     }
-
   }
 
   const filteredData = useMemo(() => {
-
     if (!search.trim()) return data;
 
-    return data.filter(row =>
-      columns.some(column => {
-
+    return data.filter((row) =>
+      columns.some((column) => {
         const value = row[column.key];
 
-        if (value === undefined || value === null)
+        if (value === undefined || value === null) {
           return false;
+        }
 
         return String(value)
           .toLowerCase()
           .includes(search.toLowerCase());
-
       })
     );
-
   }, [data, search, columns]);
 
   const sortedData = useMemo(() => {
-
     if (!sortKey) return filteredData;
 
     return [...filteredData].sort((a, b) => {
+      const valueA = a[sortKey];
+      const valueB = b[sortKey];
 
-      const A = a[sortKey];
-      const B = b[sortKey];
-
-      if (typeof A === "number") {
-
+      if (typeof valueA === "number") {
         return ascending
-          ? A - B
-          : B - A;
-
+          ? valueA - valueB
+          : valueB - valueA;
       }
 
       return ascending
-
-        ? String(A).localeCompare(String(B))
-
-        : String(B).localeCompare(String(A));
-
+        ? String(valueA).localeCompare(String(valueB))
+        : String(valueB).localeCompare(String(valueA));
     });
-
   }, [filteredData, sortKey, ascending]);
 
   const totalPages = Math.max(
@@ -85,10 +70,125 @@ function EnterpriseTable({
     start + rowsPerPage
   );
 
+  function exportCSV() {
+    const header = columns.map((c) => c.label).join(",");
+
+    const rows = sortedData.map((row) =>
+      columns
+        .map((column) => `"${row[column.key] ?? ""}"`)
+        .join(",")
+    );
+
+    const csv = [header, ...rows].join("\n");
+
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "report.csv";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  }
+
+  function printTable() {
+    const printWindow = window.open("", "_blank");
+
+    const html = `
+      <html>
+        <head>
+          <title>JPS Enterprise Report</title>
+
+          <style>
+            body{
+              font-family:Arial,sans-serif;
+              padding:30px;
+            }
+
+            h2{
+              margin-bottom:20px;
+            }
+
+            table{
+              width:100%;
+              border-collapse:collapse;
+            }
+
+            th,td{
+              border:1px solid #ddd;
+              padding:10px;
+              text-align:left;
+            }
+
+            th{
+              background:#f3f3f3;
+            }
+          </style>
+        </head>
+
+        <body>
+
+          <h2>JPS Enterprise Report</h2>
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                ${columns
+                  .map((c) => `<th>${c.label}</th>`)
+                  .join("")}
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              ${sortedData
+                .map(
+                  (row) => `
+                <tr>
+
+                  ${columns
+                    .map(
+                      (column) =>
+                        `<td>${row[column.key] ?? ""}</td>`
+                    )
+                    .join("")}
+
+                </tr>
+              `
+                )
+                .join("")}
+
+            </tbody>
+
+          </table>
+
+        </body>
+
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.print();
+  }
+
   return (
-
     <>
-
       <div className="enterprise-toolbar">
 
         <input
@@ -101,6 +201,20 @@ function EnterpriseTable({
           }}
         />
 
+        <button
+          className="enterprise-export-btn"
+          onClick={exportCSV}
+        >
+          Export CSV
+        </button>
+
+        <button
+          className="enterprise-print-btn"
+          onClick={printTable}
+        >
+          Print
+        </button>
+
       </div>
 
       <div className="enterprise-table-wrapper">
@@ -111,20 +225,16 @@ function EnterpriseTable({
 
             <tr>
 
-              {columns.map(column => (
-
+              {columns.map((column) => (
                 <th
                   key={column.key}
                   onClick={() => handleSort(column.key)}
                 >
-
                   {column.label}
 
                   {sortKey === column.key &&
                     (ascending ? " ▲" : " ▼")}
-
                 </th>
-
               ))}
 
             </tr>
@@ -134,40 +244,28 @@ function EnterpriseTable({
           <tbody>
 
             {paginatedData.length === 0 ? (
-
               <tr>
 
                 <td
                   className="empty-table"
                   colSpan={columns.length}
                 >
-
                   No matching records.
-
                 </td>
 
               </tr>
-
             ) : (
-
               paginatedData.map((row, index) => (
-
                 <tr key={row.id || index}>
 
-                  {columns.map(column => (
-
+                  {columns.map((column) => (
                     <td key={column.key}>
-
                       {row[column.key]}
-
                     </td>
-
                   ))}
 
                 </tr>
-
               ))
-
             )}
 
           </tbody>
@@ -180,17 +278,8 @@ function EnterpriseTable({
 
         <div>
 
-          Showing {sortedData.length === 0 ? 0 : start + 1} -
-
-          {" "}
-
-          {Math.min(
-            start + rowsPerPage,
-            sortedData.length
-          )}
-
-          {" "}of{" "}
-
+          Showing {sortedData.length === 0 ? 0 : start + 1} -{" "}
+          {Math.min(start + rowsPerPage, sortedData.length)} of{" "}
           {sortedData.length}
 
         </div>
@@ -199,24 +288,18 @@ function EnterpriseTable({
 
           <button
             disabled={currentPage === 1}
-            onClick={() =>
-              setPage(currentPage - 1)
-            }
+            onClick={() => setPage(currentPage - 1)}
           >
             ◀ Previous
           </button>
 
           <span>
-
             Page {currentPage} of {totalPages}
-
           </span>
 
           <button
             disabled={currentPage === totalPages}
-            onClick={() =>
-              setPage(currentPage + 1)
-            }
+            onClick={() => setPage(currentPage + 1)}
           >
             Next ▶
           </button>
@@ -224,34 +307,21 @@ function EnterpriseTable({
           <select
             value={rowsPerPage}
             onChange={(e) => {
-
-              setRowsPerPage(
-                Number(e.target.value)
-              );
-
+              setRowsPerPage(Number(e.target.value));
               setPage(1);
-
             }}
           >
-
             <option value={10}>10</option>
-
             <option value={25}>25</option>
-
             <option value={50}>50</option>
-
             <option value={100}>100</option>
-
           </select>
 
         </div>
 
       </div>
-
     </>
-
   );
-
 }
 
 export default EnterpriseTable;
