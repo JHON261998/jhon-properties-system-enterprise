@@ -1,11 +1,18 @@
 import { getDashboardStats } from "../services/dashboardService";
-import { getOccupancyReport } from "../reports";
+
+import {
+  getOccupancyReport,
+  getCollectionReport,
+} from "../reports";
 
 function Dashboard() {
   const stats = getDashboardStats();
-  const occupancy = getOccupancyReport();
 
-  console.log("Occupancy Report", occupancy);
+  const occupancy = getOccupancyReport();
+  const collection = getCollectionReport();
+
+  console.log("Occupancy Report:", occupancy);
+  console.log("Collection Report:", collection);
 
   return (
     <>
