@@ -25,22 +25,18 @@ export function getExecutiveDashboard() {
   const rentRoll = getRentRollReport();
 
   return {
-
-    // Existing Dashboard Stats
+    // KPI Statistics
     stats,
 
-    // Reporting Engines
+    // Report Engines
     occupancy,
-
     collections,
 
-    properties,
+    // Executive Dashboard Widgets
+    propertyPerformance: properties,
 
     buildings,
-
     tenantLedger,
-
     rentRoll,
-
   };
 }
