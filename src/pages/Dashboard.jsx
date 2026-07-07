@@ -1,7 +1,11 @@
 import { getDashboardStats } from "../services/dashboardService";
+import { getOccupancyReport } from "../reports";
 
 function Dashboard() {
   const stats = getDashboardStats();
+  const occupancy = getOccupancyReport();
+
+  console.log("Occupancy Report", occupancy);
 
   return (
     <>
@@ -30,17 +34,22 @@ function Dashboard() {
 
         <div className="dashboard-card">
           <h3>Total Units</h3>
-          <p>{stats.units}</p>
+          <p>{occupancy.totalUnits}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Occupied Units</h3>
-          <p>{stats.occupiedUnits}</p>
+          <p>{occupancy.occupiedUnits}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Vacant Units</h3>
-          <p>{stats.vacantUnits}</p>
+          <p>{occupancy.vacantUnits}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Occupancy Rate</h3>
+          <p>{occupancy.occupancyRate}%</p>
         </div>
 
         <div className="dashboard-card">
