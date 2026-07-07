@@ -9,6 +9,9 @@ function EnterpriseTable({
   const [ascending, setAscending] = useState(true);
   const [search, setSearch] = useState("");
 
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   function handleSort(columnKey) {
 
     if (sortKey === columnKey) {
@@ -24,22 +27,19 @@ function EnterpriseTable({
 
     if (!search.trim()) return data;
 
-    return data.filter((row) =>
-
-      columns.some((column) => {
+    return data.filter(row =>
+      columns.some(column => {
 
         const value = row[column.key];
 
-        if (value === null || value === undefined) {
+        if (value === undefined || value === null)
           return false;
-        }
 
         return String(value)
           .toLowerCase()
           .includes(search.toLowerCase());
 
       })
-
     );
 
   }, [data, search, columns]);
@@ -50,26 +50,40 @@ function EnterpriseTable({
 
     return [...filteredData].sort((a, b) => {
 
-      const valueA = a[sortKey];
-      const valueB = b[sortKey];
+      const A = a[sortKey];
+      const B = b[sortKey];
 
-      if (typeof valueA === "number") {
+      if (typeof A === "number") {
 
         return ascending
-          ? valueA - valueB
-          : valueB - valueA;
+          ? A - B
+          : B - A;
 
       }
 
       return ascending
 
-        ? String(valueA).localeCompare(String(valueB))
+        ? String(A).localeCompare(String(B))
 
-        : String(valueB).localeCompare(String(valueA));
+        : String(B).localeCompare(String(A));
 
     });
 
   }, [filteredData, sortKey, ascending]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(sortedData.length / rowsPerPage)
+  );
+
+  const currentPage = Math.min(page, totalPages);
+
+  const start = (currentPage - 1) * rowsPerPage;
+
+  const paginatedData = sortedData.slice(
+    start,
+    start + rowsPerPage
+  );
 
   return (
 
@@ -78,17 +92,13 @@ function EnterpriseTable({
       <div className="enterprise-toolbar">
 
         <input
-
           className="enterprise-search"
-
           placeholder="Search..."
-
           value={search}
-
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
         />
 
       </div>
@@ -101,16 +111,11 @@ function EnterpriseTable({
 
             <tr>
 
-              {columns.map((column) => (
+              {columns.map(column => (
 
                 <th
-
                   key={column.key}
-
-                  onClick={() =>
-                    handleSort(column.key)
-                  }
-
+                  onClick={() => handleSort(column.key)}
                 >
 
                   {column.label}
@@ -128,16 +133,13 @@ function EnterpriseTable({
 
           <tbody>
 
-            {sortedData.length === 0 ? (
+            {paginatedData.length === 0 ? (
 
               <tr>
 
                 <td
-
-                  colSpan={columns.length}
-
                   className="empty-table"
-
+                  colSpan={columns.length}
                 >
 
                   No matching records.
@@ -148,11 +150,11 @@ function EnterpriseTable({
 
             ) : (
 
-              sortedData.map((row, index) => (
+              paginatedData.map((row, index) => (
 
                 <tr key={row.id || index}>
 
-                  {columns.map((column) => (
+                  {columns.map(column => (
 
                     <td key={column.key}>
 
@@ -171,6 +173,78 @@ function EnterpriseTable({
           </tbody>
 
         </table>
+
+      </div>
+
+      <div className="enterprise-pagination">
+
+        <div>
+
+          Showing {sortedData.length === 0 ? 0 : start + 1} -
+
+          {" "}
+
+          {Math.min(
+            start + rowsPerPage,
+            sortedData.length
+          )}
+
+          {" "}of{" "}
+
+          {sortedData.length}
+
+        </div>
+
+        <div className="pagination-controls">
+
+          <button
+            disabled={currentPage === 1}
+            onClick={() =>
+              setPage(currentPage - 1)
+            }
+          >
+            ◀ Previous
+          </button>
+
+          <span>
+
+            Page {currentPage} of {totalPages}
+
+          </span>
+
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() =>
+              setPage(currentPage + 1)
+            }
+          >
+            Next ▶
+          </button>
+
+          <select
+            value={rowsPerPage}
+            onChange={(e) => {
+
+              setRowsPerPage(
+                Number(e.target.value)
+              );
+
+              setPage(1);
+
+            }}
+          >
+
+            <option value={10}>10</option>
+
+            <option value={25}>25</option>
+
+            <option value={50}>50</option>
+
+            <option value={100}>100</option>
+
+          </select>
+
+        </div>
 
       </div>
 
