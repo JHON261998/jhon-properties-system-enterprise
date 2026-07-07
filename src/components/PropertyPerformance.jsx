@@ -1,58 +1,59 @@
+import EnterpriseTable from "./EnterpriseTable";
+
 function PropertyPerformance({ properties }) {
+
+  const columns = [
+
+    {
+      key: "property",
+      label: "Property",
+    },
+
+    {
+      key: "occupancyRate",
+      label: "Occupancy %",
+    },
+
+    {
+      key: "expectedRent",
+      label: "Expected Rent",
+    },
+
+    {
+      key: "collectedRent",
+      label: "Collected",
+    },
+
+    {
+      key: "outstandingBalance",
+      label: "Outstanding",
+    },
+
+    {
+      key: "collectionRate",
+      label: "Collection %",
+    },
+
+  ];
+
   return (
+
     <div className="dashboard-section">
 
       <h2>Property Performance</h2>
 
-      <table className="dashboard-table">
+      <EnterpriseTable
 
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Occupancy</th>
-            <th>Expected Rent</th>
-            <th>Collected</th>
-            <th>Outstanding</th>
-            <th>Collection %</th>
-          </tr>
-        </thead>
+        columns={columns}
 
-        <tbody>
+        data={properties}
 
-          {properties.map((property) => (
-
-            <tr key={property.propertyId}>
-
-              <td>{property.property}</td>
-
-              <td>{property.occupancyRate}%</td>
-
-              <td>
-                KES {property.expectedRent.toLocaleString()}
-              </td>
-
-              <td>
-                KES {property.collectedRent.toLocaleString()}
-              </td>
-
-              <td>
-                KES {property.outstandingBalance.toLocaleString()}
-              </td>
-
-              <td>
-                {property.collectionRate}%
-              </td>
-
-            </tr>
-
-          ))}
-
-        </tbody>
-
-      </table>
+      />
 
     </div>
+
   );
+
 }
 
 export default PropertyPerformance;
