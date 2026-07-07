@@ -12,7 +12,7 @@ export function saveProperties(properties) {
 
 export function createProperty(data, count) {
   return {
-    id: `P-${Date.now()}`,
+    id: crypto.randomUUID(),
     code: `P-${String(count + 1).padStart(3, "0")}`,
     status: "Active",
     createdAt: new Date().toLocaleDateString(),

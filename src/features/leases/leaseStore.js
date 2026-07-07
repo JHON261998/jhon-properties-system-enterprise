@@ -9,7 +9,7 @@ export function saveLeases(leases) {
 
 export function createLease(data, count) {
   return {
-    id: `L-${Date.now()}`,
+    id: crypto.randomUUID(),
     code: `L-${String(count + 1).padStart(3, "0")}`,
     status: "Active",
     createdAt: new Date().toLocaleDateString(),

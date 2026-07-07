@@ -12,10 +12,14 @@ export function saveUnits(units) {
 
 export function createUnit(data, count) {
   return {
-    id: `U-${Date.now()}`,
+    id: crypto.randomUUID(),
+
     code: `U-${String(count + 1).padStart(3, "0")}`,
+
     status: "Vacant",
+
     createdAt: new Date().toLocaleDateString(),
+
     ...data,
   };
 }
@@ -72,11 +76,11 @@ export function getUnitStatistics() {
   const total = units.length;
 
   const occupied = units.filter(
-    unit => unit.status === "Occupied"
+    (unit) => unit.status === "Occupied"
   ).length;
 
   const vacant = units.filter(
-    unit => unit.status === "Vacant"
+    (unit) => unit.status === "Vacant"
   ).length;
 
   const occupancy =

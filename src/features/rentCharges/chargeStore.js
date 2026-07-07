@@ -14,13 +14,11 @@ export function createCharge(data, count) {
   const amount = Number(data.amount);
 
   return {
-    id: `RC-${Date.now()}`,
+    id: crypto.randomUUID(),
+
     code: `RC-${String(count + 1).padStart(3, "0")}`,
 
-    leaseId: data.leaseId,
-    tenant: data.tenant,
-    unit: data.unit,
-    period: data.period,
+    ...data,
 
     amount,
     amountPaid: 0,
@@ -36,7 +34,9 @@ export function updateChargePayment(chargeId, paymentAmount) {
   const charges = loadCharges();
 
   const updated = charges.map((charge) => {
-    if (charge.id !== chargeId) return charge;
+    if (String(charge.id) !== String(chargeId)) {
+      return charge;
+    }
 
     const amountPaid =
       Number(charge.amountPaid) + Number(paymentAmount);

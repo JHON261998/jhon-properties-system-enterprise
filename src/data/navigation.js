@@ -66,11 +66,16 @@ const navigation = [
   },
   {
     id: 14,
+    name: "Timeline",
+    path: "/timeline",
+  },
+  {
+    id: 15,
     name: "Reports",
     path: "/reports",
   },
   {
-    id: 15,
+    id: 16,
     name: "Settings",
     path: "/settings",
   },

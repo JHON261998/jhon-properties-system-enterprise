@@ -12,7 +12,7 @@ export function saveBuildings(buildings) {
 
 export function createBuilding(data, count) {
   return {
-    id: `B-${Date.now()}`,
+    id: crypto.randomUUID(),
     code: `B-${String(count + 1).padStart(3, "0")}`,
     status: "Active",
     createdAt: new Date().toLocaleDateString(),

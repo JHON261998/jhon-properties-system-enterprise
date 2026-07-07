@@ -12,16 +12,31 @@ function PaymentModal({ open, onClose, onSave }) {
 
   function handleSave() {
     const charge = charges.find(
-      (c) => String(c.id) === chargeId
+      (c) => String(c.id) === String(chargeId)
     );
 
     if (!charge) return;
 
     onSave({
-      chargeId,
-      period: charge.period,
-      tenant: charge.tenant,
+      chargeId: charge.id,
+
+      // Business Context
+      leaseId: charge.leaseId,
+
+      propertyId: charge.propertyId,
+      property: charge.property,
+
+      buildingId: charge.buildingId,
+      building: charge.building,
+
+      unitId: charge.unitId,
       unit: charge.unit,
+
+      tenantId: charge.tenantId,
+      tenant: charge.tenant,
+
+      // Payment Details
+      period: charge.period,
       amount,
       method,
     });

@@ -29,10 +29,29 @@ export function generateMonthlyCharges() {
     charges.push(
       createCharge(
         {
+          // Lease reference
           leaseId: lease.id,
+
+          // FULL tenant context
+          tenantId: lease.tenantId,
           tenant: lease.tenant,
+
+          // FULL unit context
+          unitId: lease.unitId,
           unit: lease.unit,
+
+          // FULL building context
+          buildingId: lease.buildingId,
+          building: lease.building,
+
+          // FULL property context
+          propertyId: lease.propertyId,
+          property: lease.property,
+
+          // Billing period
           period: `${period.month} ${period.year}`,
+
+          // Rent amount
           amount: lease.rent,
         },
         charges.length

@@ -18,14 +18,29 @@ function LeaseModal({ open, onClose, onSave }) {
   function handleSave() {
     if (!tenantId || !unitId) return;
 
-    const tenant = tenants.find((t) => String(t.id) === tenantId);
-    const unit = units.find((u) => String(u.id) === unitId);
+    const tenant = tenants.find(
+      (t) => String(t.id) === tenantId
+    );
+
+    const unit = units.find(
+      (u) => String(u.id) === unitId
+    );
+
+    if (!tenant || !unit) return;
 
     onSave({
       tenantId,
-      tenant: tenant?.fullName || "",
+      tenant: tenant.fullName,
+
+      propertyId: unit.propertyId,
+      property: unit.property,
+
+      buildingId: unit.buildingId,
+      building: unit.building,
+
       unitId,
-      unit: unit?.unitNumber || "",
+      unit: unit.unitNumber,
+
       startDate,
       endDate,
       rent,
@@ -48,20 +63,34 @@ function LeaseModal({ open, onClose, onSave }) {
         <h2>Create Lease</h2>
 
         <label>Tenant</label>
-        <select value={tenantId} onChange={(e) => setTenantId(e.target.value)}>
+        <select
+          value={tenantId}
+          onChange={(e) => setTenantId(e.target.value)}
+        >
           <option value="">Select Tenant</option>
+
           {tenants.map((tenant) => (
-            <option key={tenant.id} value={tenant.id}>
+            <option
+              key={tenant.id}
+              value={tenant.id}
+            >
               {tenant.fullName}
             </option>
           ))}
         </select>
 
         <label>Unit</label>
-        <select value={unitId} onChange={(e) => setUnitId(e.target.value)}>
+        <select
+          value={unitId}
+          onChange={(e) => setUnitId(e.target.value)}
+        >
           <option value="">Select Unit</option>
+
           {units.map((unit) => (
-            <option key={unit.id} value={unit.id}>
+            <option
+              key={unit.id}
+              value={unit.id}
+            >
               {unit.unitNumber}
             </option>
           ))}
@@ -96,11 +125,16 @@ function LeaseModal({ open, onClose, onSave }) {
         />
 
         <div className="modal-buttons">
-          <button className="primary-btn" onClick={handleSave}>
+          <button
+            className="primary-btn"
+            onClick={handleSave}
+          >
             Save
           </button>
 
-          <button onClick={onClose}>Cancel</button>
+          <button onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

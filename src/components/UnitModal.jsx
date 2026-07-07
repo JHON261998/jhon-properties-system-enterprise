@@ -19,10 +19,20 @@ function UnitModal({ open, onClose, onSave }) {
       (b) => String(b.id) === buildingId
     );
 
+    if (!building) return;
+
     onSave({
       unitNumber,
+
+      // Property Context
+      propertyId: building.propertyId,
+      property: building.property,
+
+      // Building Context
       buildingId,
-      building: building?.name || "",
+      building: building.name,
+
+      // Unit Details
       type,
       rent,
     });
@@ -31,6 +41,8 @@ function UnitModal({ open, onClose, onSave }) {
     setBuildingId("");
     setType("");
     setRent("");
+
+    onClose();
   }
 
   return (

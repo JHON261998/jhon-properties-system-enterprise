@@ -16,6 +16,7 @@ import RentCharges from "./pages/RentCharges";
 import Payments from "./pages/Payments";
 import Arrears from "./pages/Arrears";
 import LandlordStatements from "./pages/LandlordStatements";
+import Timeline from "./pages/Timeline";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
@@ -58,6 +59,11 @@ function App() {
         <Route
           path="/landlord-statements"
           element={<LandlordStatements />}
+        />
+
+        <Route
+          path="/timeline"
+          element={<Timeline />}
         />
 
         <Route
