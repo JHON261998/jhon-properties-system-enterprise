@@ -1,34 +1,19 @@
-import { getDashboardStats } from "../services/dashboardService";
-
-import {
-  getOccupancyReport,
-  getCollectionReport,
-  getPropertyReport,
-  getBuildingReport,
-  getTenantLedger,
-} from "../reports";
+import { getExecutiveDashboard } from "../services/dashboardServiceV2";
 
 function Dashboard() {
-  const stats = getDashboardStats();
 
-  const occupancy = getOccupancyReport();
-  const collection = getCollectionReport();
-  const propertyReport = getPropertyReport();
-  const buildingReport = getBuildingReport();
-  const tenantLedger = getTenantLedger();
+  const dashboard = getExecutiveDashboard();
 
-  console.log("Occupancy Report:", occupancy);
-  console.log("Collection Report:", collection);
-  console.log("Property Report:", propertyReport);
-  console.log("Building Report:", buildingReport);
-  console.log("Tenant Ledger:", tenantLedger);
+  console.log("Executive Dashboard:", dashboard);
 
   return (
     <>
       <div className="page-header">
         <div>
-          <h1>Dashboard</h1>
-          <p>Welcome back to Jhon Properties System Enterprise.</p>
+          <h1>Executive Dashboard</h1>
+          <p>
+            Welcome back to Jhon Properties System Enterprise.
+          </p>
         </div>
 
         <button className="primary-btn">
@@ -40,67 +25,73 @@ function Dashboard() {
 
         <div className="dashboard-card">
           <h3>Properties</h3>
-          <p>{stats.properties}</p>
+          <p>{dashboard.stats.properties}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Buildings</h3>
-          <p>{stats.buildings}</p>
+          <p>{dashboard.stats.buildings}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Total Units</h3>
-          <p>{occupancy.totalUnits}</p>
+          <p>{dashboard.occupancy.totalUnits}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Occupied Units</h3>
-          <p>{occupancy.occupiedUnits}</p>
+          <p>{dashboard.occupancy.occupiedUnits}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Vacant Units</h3>
-          <p>{occupancy.vacantUnits}</p>
+          <p>{dashboard.occupancy.vacantUnits}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Occupancy Rate</h3>
-          <p>{occupancy.occupancyRate}%</p>
+          <p>{dashboard.occupancy.occupancyRate}%</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Tenants</h3>
-          <p>{stats.tenants}</p>
+          <p>{dashboard.stats.tenants}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Leases</h3>
-          <p>{stats.leases}</p>
+          <p>{dashboard.stats.leases}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Rent Charges</h3>
-          <p>{stats.rentCharges}</p>
+          <p>{dashboard.stats.rentCharges}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Payments</h3>
-          <p>{stats.payments}</p>
+          <p>{dashboard.stats.payments}</p>
         </div>
 
         <div className="dashboard-card">
           <h3>Total Rent Charged</h3>
-          <p>KES {stats.totalRentCharged.toLocaleString()}</p>
+          <p>
+            KES {dashboard.stats.totalRentCharged.toLocaleString()}
+          </p>
         </div>
 
         <div className="dashboard-card">
           <h3>Total Collected</h3>
-          <p>KES {stats.totalCollected.toLocaleString()}</p>
+          <p>
+            KES {dashboard.stats.totalCollected.toLocaleString()}
+          </p>
         </div>
 
         <div className="dashboard-card">
           <h3>Outstanding Balance</h3>
-          <p>KES {stats.outstandingBalance.toLocaleString()}</p>
+          <p>
+            KES {dashboard.stats.outstandingBalance.toLocaleString()}
+          </p>
         </div>
 
       </div>

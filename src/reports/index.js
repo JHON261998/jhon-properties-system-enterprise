@@ -17,3 +17,7 @@ export {
 export {
   getTenantLedger,
 } from "./tenantLedger";
+
+export {
+  getRentRollReport,
+} from "./rentRollReport";
