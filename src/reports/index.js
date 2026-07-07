@@ -5,3 +5,7 @@ export {
 export {
   getCollectionReport,
 } from "./collectionReport";
+
+export {
+  getPropertyReport,
+} from "./propertyReport";

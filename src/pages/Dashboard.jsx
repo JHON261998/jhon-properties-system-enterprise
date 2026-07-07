@@ -3,6 +3,7 @@ import { getDashboardStats } from "../services/dashboardService";
 import {
   getOccupancyReport,
   getCollectionReport,
+  getPropertyReport,
 } from "../reports";
 
 function Dashboard() {
@@ -10,9 +11,11 @@ function Dashboard() {
 
   const occupancy = getOccupancyReport();
   const collection = getCollectionReport();
+  const propertyReport = getPropertyReport();
 
   console.log("Occupancy Report:", occupancy);
   console.log("Collection Report:", collection);
+  console.log("Property Report:", propertyReport);
 
   return (
     <>
