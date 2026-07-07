@@ -4,6 +4,7 @@ import {
   getOccupancyReport,
   getCollectionReport,
   getPropertyReport,
+  getBuildingReport,
 } from "../reports";
 
 function Dashboard() {
@@ -12,10 +13,12 @@ function Dashboard() {
   const occupancy = getOccupancyReport();
   const collection = getCollectionReport();
   const propertyReport = getPropertyReport();
+  const buildingReport = getBuildingReport();
 
   console.log("Occupancy Report:", occupancy);
   console.log("Collection Report:", collection);
   console.log("Property Report:", propertyReport);
+  console.log("Building Report:", buildingReport);
 
   return (
     <>

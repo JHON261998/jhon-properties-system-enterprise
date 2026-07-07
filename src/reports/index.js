@@ -9,3 +9,7 @@ export {
 export {
   getPropertyReport,
 } from "./propertyReport";
+
+export {
+  getBuildingReport,
+} from "./buildingReport";
