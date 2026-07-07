@@ -13,3 +13,7 @@ export {
 export {
   getBuildingReport,
 } from "./buildingReport";
+
+export {
+  getTenantLedger,
+} from "./tenantLedger";

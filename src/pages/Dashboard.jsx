@@ -5,6 +5,7 @@ import {
   getCollectionReport,
   getPropertyReport,
   getBuildingReport,
+  getTenantLedger,
 } from "../reports";
 
 function Dashboard() {
@@ -14,11 +15,13 @@ function Dashboard() {
   const collection = getCollectionReport();
   const propertyReport = getPropertyReport();
   const buildingReport = getBuildingReport();
+  const tenantLedger = getTenantLedger();
 
   console.log("Occupancy Report:", occupancy);
   console.log("Collection Report:", collection);
   console.log("Property Report:", propertyReport);
   console.log("Building Report:", buildingReport);
+  console.log("Tenant Ledger:", tenantLedger);
 
   return (
     <>
