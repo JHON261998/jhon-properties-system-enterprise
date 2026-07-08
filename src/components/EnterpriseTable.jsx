@@ -9,8 +9,7 @@ function EnterpriseTable({
   const [ascending, setAscending] = useState(true);
 
   const [page, setPage] = useState(1);
-
-  const rowsPerPage = 10;
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const filteredData = useMemo(() => {
     if (!search) return data;
@@ -35,8 +34,9 @@ function EnterpriseTable({
     });
   }, [filteredData, sortKey, ascending]);
 
-  const totalPages = Math.ceil(
-    sortedData.length / rowsPerPage
+  const totalPages = Math.max(
+    1,
+    Math.ceil(sortedData.length / rowsPerPage)
   );
 
   const startIndex =
@@ -94,7 +94,10 @@ function EnterpriseTable({
           className="enterprise-search"
           placeholder="Search..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
         />
 
         <button
@@ -157,29 +160,46 @@ function EnterpriseTable({
 
       <div className="enterprise-pagination">
 
-        <button
-          disabled={page === 1}
-          onClick={() =>
-            setPage(page - 1)
-          }
-        >
-          Previous
-        </button>
+        <div className="pagination-controls">
 
-        <span>
+          <button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </button>
 
-          Page {page} of {totalPages || 1}
+          <span>
+            Page {page} of {totalPages || 1}
+          </span>
 
-        </span>
+          <button
+            disabled={page >= totalPages}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </button>
 
-        <button
-          disabled={page >= totalPages}
-          onClick={() =>
-            setPage(page + 1)
-          }
-        >
-          Next
-        </button>
+        </div>
+
+        <div className="pagination-controls">
+
+          <span>Rows:</span>
+
+          <select
+            value={rowsPerPage}
+            onChange={(e) => {
+              setRowsPerPage(Number(e.target.value));
+              setPage(1);
+            }}
+          >
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+
+        </div>
 
       </div>
     </>
