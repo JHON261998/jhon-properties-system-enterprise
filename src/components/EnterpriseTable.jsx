@@ -11,6 +11,9 @@ function EnterpriseTable({
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const [density, setDensity] = useState("comfortable");
+  const [zebra, setZebra] = useState(true);
+
   const filteredData = useMemo(() => {
     if (!search) return data;
 
@@ -118,10 +121,40 @@ function EnterpriseTable({
         >
           Print
         </button>
+
+        <div className="table-options">
+
+          <label>
+            Density
+          </label>
+
+          <select
+            value={density}
+            onChange={(e) => setDensity(e.target.value)}
+          >
+            <option value="compact">Compact</option>
+            <option value="comfortable">Comfortable</option>
+            <option value="spacious">Spacious</option>
+          </select>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={zebra}
+              onChange={() => setZebra(!zebra)}
+            />
+            Zebra Rows
+          </label>
+
+        </div>
       </div>
 
       <div className="enterprise-table-wrapper">
-        <table className="enterprise-table">
+        <table
+          className={`enterprise-table ${density} ${
+            zebra ? "zebra" : ""
+          }`}
+        >
           <thead>
             <tr>
               {columns.map((column) => (
