@@ -8,6 +8,10 @@ function EnterpriseTable({
   const [sortKey, setSortKey] = useState(null);
   const [ascending, setAscending] = useState(true);
 
+  const [page, setPage] = useState(1);
+
+  const rowsPerPage = 10;
+
   const filteredData = useMemo(() => {
     if (!search) return data;
 
@@ -30,6 +34,19 @@ function EnterpriseTable({
       return 0;
     });
   }, [filteredData, sortKey, ascending]);
+
+  const totalPages = Math.ceil(
+    sortedData.length / rowsPerPage
+  );
+
+  const startIndex =
+    (page - 1) * rowsPerPage;
+
+  const paginatedData =
+    sortedData.slice(
+      startIndex,
+      startIndex + rowsPerPage
+    );
 
   function handleSort(key) {
     if (sortKey === key) {
@@ -114,7 +131,7 @@ function EnterpriseTable({
           </thead>
 
           <tbody>
-            {sortedData.length === 0 ? (
+            {paginatedData.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length}
@@ -124,7 +141,7 @@ function EnterpriseTable({
                 </td>
               </tr>
             ) : (
-              sortedData.map((row, index) => (
+              paginatedData.map((row, index) => (
                 <tr key={row.id || index}>
                   {columns.map((column) => (
                     <td key={column.key}>
@@ -136,6 +153,34 @@ function EnterpriseTable({
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="enterprise-pagination">
+
+        <button
+          disabled={page === 1}
+          onClick={() =>
+            setPage(page - 1)
+          }
+        >
+          Previous
+        </button>
+
+        <span>
+
+          Page {page} of {totalPages || 1}
+
+        </span>
+
+        <button
+          disabled={page >= totalPages}
+          onClick={() =>
+            setPage(page + 1)
+          }
+        >
+          Next
+        </button>
+
       </div>
     </>
   );
