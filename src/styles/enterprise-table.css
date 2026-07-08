@@ -124,7 +124,7 @@
 ================================ */
 
 .enterprise-table thead {
-  background: #f8f9fb;
+  background: hsl(220, 27%, 98%);
 }
 
 .enterprise-table th {
@@ -196,6 +196,13 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.pagination-controls small {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 .pagination-controls button {

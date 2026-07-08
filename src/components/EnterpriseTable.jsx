@@ -42,6 +42,11 @@ function EnterpriseTable({
   const startIndex =
     (page - 1) * rowsPerPage;
 
+  const endIndex = Math.min(
+    startIndex + rowsPerPage,
+    sortedData.length
+  );
+
   const paginatedData =
     sortedData.slice(
       startIndex,
@@ -169,9 +174,25 @@ function EnterpriseTable({
             Previous
           </button>
 
-          <span>
-            Page {page} of {totalPages || 1}
-          </span>
+          <div>
+
+            <div>
+              Page {page} of {totalPages}
+            </div>
+
+            <small>
+              Showing{" "}
+              {sortedData.length === 0
+                ? 0
+                : startIndex + 1}
+              –
+              {endIndex}
+              {" "}of{" "}
+              {sortedData.length}
+              {" "}records
+            </small>
+
+          </div>
 
           <button
             disabled={page >= totalPages}
