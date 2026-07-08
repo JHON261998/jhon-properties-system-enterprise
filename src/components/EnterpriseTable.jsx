@@ -4,58 +4,80 @@ function EnterpriseTable({
   columns = [],
   data = [],
 }) {
-
+  const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState(null);
   const [ascending, setAscending] = useState(true);
-  const [search, setSearch] = useState("");
 
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const filteredData = useMemo(() => {
+    if (!search) return data;
 
-  const [showColumns, setShowColumns] = useState(
-    columns.reduce((obj, col) => {
-      obj[col.key] = true;
-      return obj;
-    }, {})
-  );
+    return data.filter((row) =>
+      Object.values(row).some((value) =>
+        String(value).toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }, [data, search]);
 
-  const visibleColumns = columns.filter(
-    col => showColumns[col.key]
-  );
+  const sortedData = useMemo(() => {
+    if (!sortKey) return filteredData;
 
-  function toggleColumn(key) {
-    setShowColumns(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  }
+    return [...filteredData].sort((a, b) => {
+      const aVal = a[sortKey];
+      const bVal = b[sortKey];
 
-  function handleSort(columnKey) {
-    if (sortKey === columnKey) {
+      if (aVal < bVal) return ascending ? -1 : 1;
+      if (aVal > bVal) return ascending ? 1 : -1;
+      return 0;
+    });
+  }, [filteredData, sortKey, ascending]);
+
+  function handleSort(key) {
+    if (sortKey === key) {
       setAscending(!ascending);
     } else {
-      setSortKey(columnKey);
+      setSortKey(key);
       setAscending(true);
     }
   }
 
-  // Keep the rest of your current EnterpriseTable logic
-  // (search, filtering, sorting, pagination,
-  // exportCSV(), printTable())
+  function exportCSV() {
+    const header = columns.map((c) => c.label).join(",");
+
+    const rows = sortedData.map((row) =>
+      columns
+        .map((c) => `"${row[c.key] ?? ""}"`)
+        .join(",")
+    );
+
+    const csv = [header, ...rows].join("\n");
+
+    const blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "export.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function printTable() {
+    window.print();
+  }
 
   return (
     <>
-
       <div className="enterprise-toolbar">
-
         <input
           className="enterprise-search"
           placeholder="Search..."
           value={search}
-          onChange={(e)=>{
-            setSearch(e.target.value);
-            setPage(1);
-          }}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         <button
@@ -71,92 +93,52 @@ function EnterpriseTable({
         >
           Print
         </button>
-
-      </div>
-
-      <div className="column-selector">
-
-        {columns.map(column => (
-
-          <label key={column.key}>
-
-            <input
-              type="checkbox"
-              checked={showColumns[column.key]}
-              onChange={() =>
-                toggleColumn(column.key)
-              }
-            />
-
-            {column.label}
-
-          </label>
-
-        ))}
-
       </div>
 
       <div className="enterprise-table-wrapper">
-
         <table className="enterprise-table">
-
           <thead>
-
             <tr>
-
-              {visibleColumns.map(column=>(
-
+              {columns.map((column) => (
                 <th
                   key={column.key}
-                  onClick={() =>
-                    handleSort(column.key)
-                  }
+                  onClick={() => handleSort(column.key)}
                 >
-
                   {column.label}
 
-                  {sortKey===column.key &&
-                    (ascending ? " ▲":" ▼")}
-
+                  {sortKey === column.key &&
+                    (ascending ? " ▲" : " ▼")}
                 </th>
-
               ))}
-
             </tr>
-
           </thead>
 
           <tbody>
-
-            {paginatedData.map((row,index)=>(
-
-              <tr key={row.id||index}>
-
-                {visibleColumns.map(column=>(
-
-                  <td key={column.key}>
-
-                    {row[column.key]}
-
-                  </td>
-
-                ))}
-
+            {sortedData.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="empty-table"
+                >
+                  No records found.
+                </td>
               </tr>
-
-            ))}
-
+            ) : (
+              sortedData.map((row, index) => (
+                <tr key={row.id || index}>
+                  {columns.map((column) => (
+                    <td key={column.key}>
+                      {row[column.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
-
         </table>
-
       </div>
-
-      {/* Keep your existing pagination here */}
-
     </>
   );
-
 }
 
 export default EnterpriseTable;
