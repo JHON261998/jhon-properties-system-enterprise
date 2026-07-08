@@ -160,6 +160,11 @@ function EnterpriseTable({
               {columns.map((column) => (
                 <th
                   key={column.key}
+                  className={
+                    column === columns[0]
+                      ? "sticky-column"
+                      : ""
+                  }
                   onClick={() => handleSort(column.key)}
                 >
                   {column.label}
@@ -185,7 +190,14 @@ function EnterpriseTable({
               paginatedData.map((row, index) => (
                 <tr key={row.id || index}>
                   {columns.map((column) => (
-                    <td key={column.key}>
+                    <td
+                      key={column.key}
+                      className={
+                        column === columns[0]
+                          ? "sticky-column"
+                          : ""
+                      }
+                    >
                       {row[column.key]}
                     </td>
                   ))}

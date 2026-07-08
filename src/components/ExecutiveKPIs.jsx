@@ -1,3 +1,5 @@
+import DashboardCard from "./DashboardCard";
+
 function ExecutiveKPIs({ dashboard }) {
   const stats = dashboard.stats;
   const occupancy = dashboard.occupancy;
@@ -5,45 +7,69 @@ function ExecutiveKPIs({ dashboard }) {
   return (
     <div className="dashboard-grid">
 
-      <div className="dashboard-card">
-        <h3>Properties</h3>
-        <p>{stats.properties}</p>
-      </div>
+      <DashboardCard
+        title="Properties"
+        value={stats.properties}
+        subtitle="Managed Properties"
+        icon="🏢"
+        trend="Portfolio"
+      />
 
-      <div className="dashboard-card">
-        <h3>Buildings</h3>
-        <p>{stats.buildings}</p>
-      </div>
+      <DashboardCard
+        title="Buildings"
+        value={stats.buildings}
+        subtitle="Registered Buildings"
+        icon="🏘️"
+        trend="Structures"
+      />
 
-      <div className="dashboard-card">
-        <h3>Total Units</h3>
-        <p>{occupancy.totalUnits}</p>
-      </div>
+      <DashboardCard
+        title="Total Units"
+        value={occupancy.totalUnits}
+        subtitle="Available Inventory"
+        icon="🚪"
+        trend="Units"
+      />
 
-      <div className="dashboard-card">
-        <h3>Tenants</h3>
-        <p>{stats.tenants}</p>
-      </div>
+      <DashboardCard
+        title="Tenants"
+        value={stats.tenants}
+        subtitle="Active Tenants"
+        icon="👤"
+        trend="Residents"
+      />
 
-      <div className="dashboard-card">
-        <h3>Occupancy</h3>
-        <p>{occupancy.occupancyRate}%</p>
-      </div>
+      <DashboardCard
+        title="Occupancy"
+        value={`${occupancy.occupancyRate}%`}
+        subtitle="Current Occupancy"
+        icon="📈"
+        trend="Live Rate"
+      />
 
-      <div className="dashboard-card">
-        <h3>Expected Rent</h3>
-        <p>KES {stats.totalRentCharged.toLocaleString()}</p>
-      </div>
+      <DashboardCard
+        title="Expected Rent"
+        value={`KES ${stats.totalRentCharged.toLocaleString()}`}
+        subtitle="Monthly Billing"
+        icon="💰"
+        trend="Revenue"
+      />
 
-      <div className="dashboard-card">
-        <h3>Collected</h3>
-        <p>KES {stats.totalCollected.toLocaleString()}</p>
-      </div>
+      <DashboardCard
+        title="Collected"
+        value={`KES ${stats.totalCollected.toLocaleString()}`}
+        subtitle="Payments Received"
+        icon="💵"
+        trend="Cash Flow"
+      />
 
-      <div className="dashboard-card">
-        <h3>Outstanding</h3>
-        <p>KES {stats.outstandingBalance.toLocaleString()}</p>
-      </div>
+      <DashboardCard
+        title="Outstanding"
+        value={`KES ${stats.outstandingBalance.toLocaleString()}`}
+        subtitle="Amounts Due"
+        icon="⚠️"
+        trend="Receivables"
+      />
 
     </div>
   );

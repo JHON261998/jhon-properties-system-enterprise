@@ -351,3 +351,19 @@
   gap: 6px;
   font-size: 14px;
 }
+
+/* ===============================
+   Sticky First Column
+================================ */
+
+.sticky-column {
+  position: sticky;
+  left: 0;
+  background: #ffffff;
+  z-index: 2;
+}
+
+.enterprise-table thead .sticky-column {
+  z-index: 3;
+  background: #f8f9fb;
+}

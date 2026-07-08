@@ -1,6 +1,8 @@
 import { getExecutiveDashboard } from "../services/dashboardServiceV2";
 
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
+import RevenueCollection from "../components/RevenueCollection";
+import OccupancyWidget from "../components/OccupancyWidget";
 import PropertyPerformance from "../components/PropertyPerformance";
 
 function Dashboard() {
@@ -25,6 +27,14 @@ function Dashboard() {
       </div>
 
       <ExecutiveKPIs dashboard={dashboard} />
+
+      <RevenueCollection
+        dashboard={dashboard}
+      />
+
+      <OccupancyWidget
+        dashboard={dashboard}
+      />
 
       <PropertyPerformance
         properties={dashboard.propertyPerformance}
