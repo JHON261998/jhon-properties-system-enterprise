@@ -10,6 +10,25 @@ export function saveCharges(charges) {
   );
 }
 
+function getDefaultDueDate() {
+
+  const due = new Date();
+
+  /*
+    Enterprise Billing Rule v1
+
+    Rent is due on the 5th of the current month.
+
+    This will later become configurable
+    through the Settings Engine.
+  */
+
+  due.setDate(5);
+
+  return due.toISOString();
+
+}
+
 export function createCharge(data, count) {
   const amount = Number(data.amount);
 
@@ -25,6 +44,8 @@ export function createCharge(data, count) {
     balance: amount,
 
     status: "Unpaid",
+
+    dueDate: getDefaultDueDate(),
 
     createdAt: new Date().toLocaleString(),
   };

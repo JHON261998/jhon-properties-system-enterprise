@@ -7,6 +7,8 @@ import {
   getRentRollReport,
 } from "../reports";
 
+import { loadCharges } from "../features/rentCharges/chargeStore";
+
 import { getDashboardStats } from "./dashboardService";
 
 export function getExecutiveDashboard() {
@@ -24,6 +26,24 @@ export function getExecutiveDashboard() {
 
   const rentRoll = getRentRollReport();
 
+  const charges = loadCharges();
+
+  const overdueCharges = charges.filter(
+    (charge) =>
+      charge.status !== "Paid" &&
+      charge.lateFeeApplied
+  );
+
+  const overdueCount =
+    overdueCharges.length;
+
+  const totalLateFees =
+    overdueCharges.reduce(
+      (sum, charge) =>
+        sum + Number(charge.lateFee || 0),
+      0
+    );
+
   return {
     // KPI Statistics
     stats,
@@ -38,5 +58,9 @@ export function getExecutiveDashboard() {
     buildings,
     tenantLedger,
     rentRoll,
+
+    overdueCount,
+
+    totalLateFees,
   };
 }

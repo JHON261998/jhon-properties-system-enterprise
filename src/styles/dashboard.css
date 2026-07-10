@@ -172,3 +172,180 @@ margin-top:10px;
 color:#6b7280;
 
 }
+
+/* ==================================
+   Executive Alerts
+================================== */
+
+.alert-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 14px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+.alert-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #1f2937;
+}
+
+.alert-card p {
+  margin: 0;
+  color: #6b7280;
+}
+
+/* ==================================
+   Recent Payments
+================================== */
+
+.payment-item{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:14px 0;
+
+border-bottom:1px solid #ececec;
+
+}
+
+.payment-item:last-child{
+
+border-bottom:none;
+
+}
+
+.payment-item strong{
+
+color:#1f2937;
+
+}
+
+.payment-item small{
+
+color:#6b7280;
+
+}
+
+/* ==================================
+   Revenue Trend Chart
+================================== */
+
+.bar-chart {
+
+display:flex;
+
+align-items:flex-end;
+
+justify-content:space-between;
+
+gap:18px;
+
+height:260px;
+
+margin-top:20px;
+
+overflow-x:auto;
+
+}
+
+.bar-column{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+min-width:70px;
+
+}
+
+.bar{
+
+width:38px;
+
+background:#2563eb;
+
+border-radius:8px 8px 0 0;
+
+transition:.3s;
+
+}
+
+.bar:hover{
+
+opacity:.8;
+
+transform:scaleY(1.02);
+
+}
+
+.bar-column small{
+
+margin-top:10px;
+
+font-size:12px;
+
+text-align:center;
+
+color:#6b7280;
+
+}
+
+.bar-column strong{
+
+margin-top:6px;
+
+font-size:12px;
+
+}
+
+/* ==================================
+   Activity Timeline
+================================== */
+
+.activity-item{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:flex-start;
+
+padding:14px 0;
+
+border-bottom:1px solid #ececec;
+
+gap:20px;
+
+}
+
+.activity-item:last-child{
+
+border-bottom:none;
+
+}
+
+.activity-item strong{
+
+display:block;
+
+margin-bottom:4px;
+
+color:#1f2937;
+
+}
+
+.activity-item small{
+
+color:#6b7280;
+
+font-size:12px;
+
+}

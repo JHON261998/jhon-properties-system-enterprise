@@ -71,6 +71,24 @@ function ExecutiveKPIs({ dashboard }) {
         trend="Receivables"
       />
 
+      <div className="dashboard-card">
+
+        <h3>Overdue Accounts</h3>
+
+        <p>{dashboard.overdueCount}</p>
+
+      </div>
+
+      <div className="dashboard-card">
+
+        <h3>Late Fees</h3>
+
+        <p>
+          KES {dashboard.totalLateFees.toLocaleString()}
+        </p>
+
+      </div>
+
     </div>
   );
 }
